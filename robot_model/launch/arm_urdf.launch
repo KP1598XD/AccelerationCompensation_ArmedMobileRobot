@@ -1,0 +1,37 @@
+<launch>
+	
+	<arg name="gaussian_noise_mean" default="0.0"/>
+	<arg name="world_file" default="$(find robot_model)/worlds/my_large_world.world"/>
+	
+	<!--Urdf file path-->
+	<param name="robot_description" command="$(find xacro)/xacro --inorder $(find robot_model)/urdf/robot_model.xacro gaussian_noise_mean:=$(arg gaussian_noise_mean)" />
+	
+	<!--spawn a empty gazebo world-->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+	    <arg name="world_name" value="$(arg world_file)"/>
+	    <arg name="paused" value="false"/>
+	    <arg name="use_sim_time" value="true"/>
+	    <arg name="gui" value="true"/>
+	    <arg name="headless" value="false"/>
+	    <arg name="debug" value="false"/>
+	  </include>
+	
+	<!--spawn model-->
+	<node name="spawn_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-param robot_description -urdf -model robot_model -x 0.039 -y -0.0 -z 0.0" />
+	
+	<!--Load and launch the joint trajectory controller-->
+	<rosparam file ="$(find robot_model)/config/joint_trajectory_controller.yaml" command="load"/>
+	<node name= "controller_spawner" pkg= "controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller arm_robot_controller"/>
+	
+	<!-- Robot State Publisher for TF of each joint: publishes all the current states of the joint, then RViz can visualize -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
+	
+	<node pkg="robot_model" type="tf_broadcaster_wheels.py" name="tf_broadcaster_wheels" output="screen"/>
+	
+	<node pkg="robot_model" type="imu_conversion.py" name="imu_conversion" output="screen"/>
+	
+	<node pkg="robot_model" type="pose_glass.py" name="pose_glass" output="screen"/>
+	
+	<node pkg="robot_model" type="acc_viewer.py" name="acc_viewer" output="screen"/>
+	
+</launch>
