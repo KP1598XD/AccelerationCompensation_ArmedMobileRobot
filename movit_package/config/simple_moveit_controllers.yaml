@@ -1,0 +1,31 @@
+controller_list:
+  - name: robot_arm_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    joints:
+      - Joint1
+      - Joint2
+      - Joint3
+      - Joint4
+      - Joint5
+      - Joint6
+    constraints:
+      goal_time: 0.5
+      Joint1:
+        trajectory: 0.01
+        goal: 0.01
+      Joint2:
+        trajectory: 0.01
+        goal: 0.01
+      Joint3:
+        trajectory: 0.01
+        goal: 0.01
+      Joint4:
+        trajectory: 0.01
+        goal: 0.01
+      Joint5:
+        trajectory: 0.01
+        goal: 0.01
+      Joint6:
+        trajectory: 0.01
+        goal: 0.01
