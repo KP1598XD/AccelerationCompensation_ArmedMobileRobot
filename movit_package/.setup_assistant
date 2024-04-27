@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: robot_model
+    relative_path: urdf/robot_model.xacro
+    xacro_args: gaussian_noise_mean:=0.0
+  SRDF:
+    relative_path: config/robot_model.srdf
+  CONFIG:
+    author_name: Marcel Colet Velasoc
+    author_email: marcel.colet@estudiantat.upc.edu
+    generated_timestamp: 1713894768
