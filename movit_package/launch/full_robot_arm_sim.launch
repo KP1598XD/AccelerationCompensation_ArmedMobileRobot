@@ -1,0 +1,19 @@
+<launch>
+
+    <arg name="node_start_delay" default="5.0" />
+    
+	<!-- Launch Your robot arms launch file which loads the robot in Gazebo and spawns the controllers -->
+	<include file = "$(find robot_model)/launch/arm_urdf.launch" />
+	
+	<!-- Launch Moveit Move Group Node -->
+	<include file = "$(find movit_package)/launch/move_group.launch" />
+	
+	<!-- Run Rviz and load the default configuration to see the state of the move_group node -->
+	<arg name="use_rviz" default="true" />
+	<include file="$(find movit_package)/launch/moveit_rviz.launch" if="$(arg use_rviz)">
+		<arg name="rviz_config" value="$(find movit_package)/launch/moveit.rviz"/>
+	</include>
+	
+	<node name="initial_pose_1" pkg="robot_model" type="initial_pose_1.py" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
+	
+</launch>
