@@ -1,0 +1,17 @@
+#Instead of using TAB for indentation, use two spaces at the place of one TAB
+#Controller to control robot arm joints
+arm_robot_controller:
+  type: "position_controllers/JointTrajectoryController"
+  joints:
+    -  Joint1
+    -  Joint2
+    -  Joint3
+    -  Joint4
+    -  Joint5
+    -  Joint6
+  solve_type: Distance
+#Controller to continuously publish joint states/positions
+joint_state_controller:
+  type: "joint_state_controller/JointStateController"
+  publish_rate: 50
+  
